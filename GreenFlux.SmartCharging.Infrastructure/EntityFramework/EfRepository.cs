@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using GreenFlux.SmartCharging.Domain.Entities;
 using GreenFlux.SmartCharging.Domain.Interfaces;
@@ -21,6 +24,12 @@ namespace GreenFlux.SmartCharging.Infrastructure.EntityFramework
             return entity.Id;
         }
 
+        public async Task CreateAsync(List<TEntity> entities)
+        {
+            await _dbContext.Set<TEntity>().AddRangeAsync(entities);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task UpdateAsync(TEntity entity)
         {
             _dbContext.Set<TEntity>().Update(entity);
@@ -36,9 +45,14 @@ namespace GreenFlux.SmartCharging.Infrastructure.EntityFramework
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(int id, params Expression<Func<TEntity, object>>[] includes)
         {
-            return await _dbContext.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
+            IQueryable<TEntity> entities = _dbContext.Set<TEntity>();
+            if (includes != null)
+            {
+                entities = includes.Aggregate(entities, (current, n) => current.Include(n));
+            }
+            return await entities.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<TEntity>> GetAll()

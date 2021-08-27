@@ -21,20 +21,24 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ChargeStation>> Get(int id)
+        public async Task<ActionResult<ChargeStation>> Get(int groupId, int id)
         {
-            return await _mediator.Send(new GetChargeStationQuery(id));
+            ChargeStation chargeStation = await _mediator.Send(new GetChargeStationQuery(id));
+            if (groupId != chargeStation.GroupId) return BadRequest();
+            return chargeStation;
         }
+
         [HttpPost]
-        public async Task<ActionResult<int>> Create([FromBody] CreateChargeStationModel chargeStation)
+        public async Task<ActionResult<int>> Create(int groupId, [FromBody] CreateChargeStationModel chargeStation)
         {
-            await _mediator.Send(new CreateChargeStationCommand(chargeStation));
-            return NoContent();
+            if (groupId != chargeStation.GroupId) return BadRequest();
+            return await _mediator.Send(new CreateChargeStationCommand(chargeStation));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Group>> Update([FromBody] ChargeStation chargeStation)
+        public async Task<ActionResult<Group>> Update(int groupId, [FromBody] ChargeStation chargeStation)
         {
+            if (groupId != chargeStation.GroupId) return BadRequest();
             await _mediator.Send(new UpdateChargeStationCommand(chargeStation));
             return NoContent();
         }

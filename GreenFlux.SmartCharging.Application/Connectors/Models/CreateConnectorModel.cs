@@ -7,6 +7,6 @@ namespace GreenFlux.SmartCharging.Application.Connectors.Models
 
         [Required]
         [Range(double.Epsilon, double.MaxValue)]
-        public double CapacityAmps { get; set; }
+        public double MaxCurrentAmps { get; set; }
     }
 }

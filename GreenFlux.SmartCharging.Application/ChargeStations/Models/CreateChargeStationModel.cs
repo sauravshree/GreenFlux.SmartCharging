@@ -11,6 +11,8 @@ namespace GreenFlux.SmartCharging.Application.ChargeStations.Models
         public int GroupId { get; set; }
         [Required]
         public string Name { get; set; }
+
+        public int MaxConnectors { get; set; }
         public List<CreateConnectorModel> Connectors { get; set; } = new();
     }
 }
