@@ -16,35 +16,34 @@ namespace GreenFlux.SmartCharging.Infrastructure.EntityFramework
         }
         public async Task<int> CreateAsync(TEntity entity)
         {
-            _dbContext.Add(entity);
+            await _dbContext.Set<TEntity>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
             return entity.Id;
         }
 
         public async Task UpdateAsync(TEntity entity)
         {
-            _dbContext.Update(entity);
+            _dbContext.Set<TEntity>().Update(entity);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
-            TEntity entity = await _dbContext.Set<TEntity>().SingleOrDefaultAsync(x => x.Id == id);
+            DbSet<TEntity> entities = _dbContext.Set<TEntity>();
+            TEntity entity = await entities.SingleOrDefaultAsync(x => x.Id == id);
             if (entity == null) return;
-            _dbContext.Remove(entity);
+            entities.Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<TEntity> GetByIdAsync(int id)
         {
-            DbSet<TEntity> query = _dbContext.Set<TEntity>();
-            return await query.SingleOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<TEntity>> GetAll()
         {
-            DbSet<TEntity> query = _dbContext.Set<TEntity>();
-            return await query.ToListAsync();
+            return await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
         }
     }
 }

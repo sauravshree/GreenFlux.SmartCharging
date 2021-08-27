@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using GreenFlux.SmartCharging.Application.Groups.Commands;
 using GreenFlux.SmartCharging.Application.Groups.Models;
 using GreenFlux.SmartCharging.Application.Groups.Queries;
-using GreenFlux.SmartCharging.Application.Queries;
 using GreenFlux.SmartCharging.Domain.Entities;
 using MediatR;
 
@@ -24,7 +23,9 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Group>> Get(int id)
         {
-            return await _mediator.Send(new GetGroupQuery(id));
+            Group group = await _mediator.Send(new GetGroupQuery(id));
+            if (group == null) return NotFound();
+            return group;
         }
 
         [HttpGet]
