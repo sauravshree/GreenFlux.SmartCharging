@@ -28,7 +28,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Group>>> GetAll()
+        public async Task<ActionResult<List<ViewGroupModel>>> GetAll()
         {
             return await _mediator.Send(new GetAllGroupsQuery());
         }

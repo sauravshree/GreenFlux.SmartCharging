@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using GreenFlux.SmartCharging.Domain.Entities;
 
@@ -11,7 +9,7 @@ namespace GreenFlux.SmartCharging.Domain.Interfaces
         Task<int> CreateAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(int id);
-        Task<TEntity> GetByIdAsync(int id, params Expression<Func<TEntity, object>>[] includes);
+        Task<TEntity> GetByIdAsync(int id);
         Task<List<TEntity>> GetAll();
     }
 }

@@ -5,6 +5,7 @@ namespace GreenFlux.SmartCharging.Domain.Entities
     public class ChargeStation : EntityBase
     {
         public string Name { get; set; }
+        public int GroupId { get; set; }
         public List<Connector> Connectors { get; set; }
     }
 }
