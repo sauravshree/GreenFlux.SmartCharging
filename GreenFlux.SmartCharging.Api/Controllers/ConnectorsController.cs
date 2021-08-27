@@ -19,7 +19,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Create([FromBody] CreateConnectorModel connector)
+        public async Task<ActionResult<int>> Create([FromBody] CreateConnector connector)
         {
             return await _mediator.Send(new CreateConnectorCommand(connector));
         }

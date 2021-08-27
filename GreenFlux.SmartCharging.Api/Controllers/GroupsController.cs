@@ -29,7 +29,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ViewGroupModel>>> GetAll()
+        public async Task<ActionResult<List<ViewGroup>>> GetAll()
         {
             return await _mediator.Send(new GetAllGroupsQuery());
         }
@@ -42,7 +42,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Create([FromBody] CreateGroupModel group)
+        public async Task<ActionResult<int>> Create([FromBody] CreateGroup group)
         {
             return await _mediator.Send(new CreateGroupCommand(group));
         }

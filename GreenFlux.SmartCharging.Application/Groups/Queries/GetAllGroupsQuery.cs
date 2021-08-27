@@ -9,9 +9,9 @@ using MediatR;
 
 namespace GreenFlux.SmartCharging.Application.Groups.Queries
 {
-    public class GetAllGroupsQuery : IRequest<List<ViewGroupModel>>
+    public class GetAllGroupsQuery : IRequest<List<ViewGroup>>
     {
-        internal class Handler : IRequestHandler<GetAllGroupsQuery, List<ViewGroupModel>>
+        internal class Handler : IRequestHandler<GetAllGroupsQuery, List<ViewGroup>>
         {
             private readonly IRepository<Group> _repository;
 
@@ -19,10 +19,10 @@ namespace GreenFlux.SmartCharging.Application.Groups.Queries
             {
                 _repository = repository;
             }
-            public async Task<List<ViewGroupModel>> Handle(GetAllGroupsQuery request, CancellationToken cancellationToken)
+            public async Task<List<ViewGroup>> Handle(GetAllGroupsQuery request, CancellationToken cancellationToken)
             {
                 var groups= await _repository.GetAll();
-                return groups.Select(group => new ViewGroupModel
+                return groups.Select(group => new ViewGroup
                     {Id = group.Id, Name = group.Name, CapacityAmps = group.CapacityAmps}).ToList();
             }
         }

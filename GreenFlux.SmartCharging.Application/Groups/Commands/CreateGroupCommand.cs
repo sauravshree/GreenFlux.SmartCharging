@@ -9,9 +9,9 @@ namespace GreenFlux.SmartCharging.Application.Groups.Commands
 {
     public class CreateGroupCommand : IRequest<int>
     {
-        public CreateGroupModel Group { get; }
+        public CreateGroup Group { get; }
 
-        public CreateGroupCommand(CreateGroupModel group)
+        public CreateGroupCommand(CreateGroup group)
         {
             Group = group;
         }

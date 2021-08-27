@@ -5,9 +5,9 @@ namespace GreenFlux.SmartCharging.Application.Connectors.Commands
 {
     public class CreateConnectorCommand : IRequest<int>
     {
-        public CreateConnectorModel Connector { get; }
+        public CreateConnector Connector { get; }
 
-        public CreateConnectorCommand(CreateConnectorModel connector)
+        public CreateConnectorCommand(CreateConnector connector)
         {
             Connector = connector;
         }

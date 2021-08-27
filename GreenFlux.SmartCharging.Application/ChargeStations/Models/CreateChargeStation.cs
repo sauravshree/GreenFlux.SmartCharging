@@ -4,7 +4,7 @@ using GreenFlux.SmartCharging.Application.Connectors.Models;
 
 namespace GreenFlux.SmartCharging.Application.ChargeStations.Models
 {
-    public class CreateChargeStationModel
+    public class CreateChargeStation
     {
         [Required]
         [Range(1, int.MaxValue)]
@@ -12,7 +12,9 @@ namespace GreenFlux.SmartCharging.Application.ChargeStations.Models
         [Required]
         public string Name { get; set; }
 
+        [Required]
+        [Range(1, int.MaxValue)]
         public int MaxConnectors { get; set; }
-        public List<CreateConnectorModel> Connectors { get; set; } = new();
+        public List<CreateConnector> Connectors { get; set; } = new();
     }
 }

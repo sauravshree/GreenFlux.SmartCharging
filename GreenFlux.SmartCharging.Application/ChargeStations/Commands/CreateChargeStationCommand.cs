@@ -12,9 +12,9 @@ namespace GreenFlux.SmartCharging.Application.ChargeStations.Commands
 {
     public class CreateChargeStationCommand : IRequest<int>
     {
-        public CreateChargeStationModel ChargeStation { get; }
+        public CreateChargeStation ChargeStation { get; }
 
-        public CreateChargeStationCommand(CreateChargeStationModel chargeStation)
+        public CreateChargeStationCommand(CreateChargeStation chargeStation)
         {
             ChargeStation = chargeStation;
         }

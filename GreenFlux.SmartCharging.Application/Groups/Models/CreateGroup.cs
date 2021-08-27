@@ -2,7 +2,7 @@
 
 namespace GreenFlux.SmartCharging.Application.Groups.Models
 {
-    public class CreateGroupModel
+    public class CreateGroup
     {
         [Required]
         public string Name { get; set; }

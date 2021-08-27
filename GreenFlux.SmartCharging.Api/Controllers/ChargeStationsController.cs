@@ -29,7 +29,7 @@ namespace GreenFlux.SmartCharging.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Create(int groupId, [FromBody] CreateChargeStationModel chargeStation)
+        public async Task<ActionResult<int>> Create(int groupId, [FromBody] CreateChargeStation chargeStation)
         {
             if (groupId != chargeStation.GroupId) return BadRequest();
             return await _mediator.Send(new CreateChargeStationCommand(chargeStation));
