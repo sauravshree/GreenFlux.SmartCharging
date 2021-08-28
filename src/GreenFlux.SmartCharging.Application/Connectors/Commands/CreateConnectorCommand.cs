@@ -38,7 +38,8 @@ namespace GreenFlux.SmartCharging.Application.Connectors.Commands
             }
             public async Task<(int connectorId, bool success, string error)> Handle(CreateConnectorCommand request, CancellationToken cancellationToken)
             {
-                ChargeStation chargeStation = await _chargeStationRepository.GetByIdAsync(request.Connector.ChargeStationId, x => x.Connectors);
+                if (!request.Connector.ChargeStationId.HasValue) throw new ArgumentNullException(nameof(request.Connector.ChargeStationId));
+                ChargeStation chargeStation = await _chargeStationRepository.GetByIdAsync(request.Connector.ChargeStationId.Value, x => x.Connectors);
                 if (chargeStation.MaxConnectors == chargeStation.Connectors.Count) return (0, false, $"Charge station {chargeStation.Name} has already reached max number of connectors. Max allowed connectors: {chargeStation.MaxConnectors}");
 
                 Group group = await _groupRepository.GetByIdAsync(request.GroupId);
@@ -57,7 +58,7 @@ namespace GreenFlux.SmartCharging.Application.Connectors.Commands
 
                 Connector connector = new()
                 {
-                    ChargeStationId = request.Connector.ChargeStationId,
+                    ChargeStationId = request.Connector.ChargeStationId.Value,
                     MaxCurrentAmps = request.Connector.MaxCurrentAmps
                 };
                 int connectorId = await _connectorRepository.CreateAsync(connector);
