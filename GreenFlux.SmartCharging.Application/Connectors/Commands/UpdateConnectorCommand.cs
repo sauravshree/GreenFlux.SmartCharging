@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using GreenFlux.SmartCharging.Application.ChargeStations;
+using GreenFlux.SmartCharging.Application.ChargeStations.Services;
 using GreenFlux.SmartCharging.Domain.Entities;
 using GreenFlux.SmartCharging.Domain.Interfaces;
 using MediatR;

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using GreenFlux.SmartCharging.Application.Behaviors;
-using GreenFlux.SmartCharging.Application.ChargeStations;
+using GreenFlux.SmartCharging.Application.ChargeStations.Services;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 

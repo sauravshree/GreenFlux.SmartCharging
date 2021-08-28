@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GreenFlux.SmartCharging.Domain.Entities;
 
-namespace GreenFlux.SmartCharging.Application.ChargeStations
+namespace GreenFlux.SmartCharging.Application.ChargeStations.Services
 {
     public interface IValidationService
     {

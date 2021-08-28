@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using GreenFlux.SmartCharging.Application.ChargeStations.Models;
+using GreenFlux.SmartCharging.Application.ChargeStations.Services;
 using GreenFlux.SmartCharging.Domain.Entities;
 using GreenFlux.SmartCharging.Domain.Interfaces;
 using MediatR;

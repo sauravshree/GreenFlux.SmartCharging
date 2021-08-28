@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using GreenFlux.SmartCharging.Application.ChargeStations;
+using GreenFlux.SmartCharging.Application.ChargeStations.Services;
 using GreenFlux.SmartCharging.Application.Connectors.Models;
 using GreenFlux.SmartCharging.Domain.Entities;
 using GreenFlux.SmartCharging.Domain.Interfaces;
@@ -41,6 +41,9 @@ namespace GreenFlux.SmartCharging.Application.Connectors.Commands
             }
             public async Task<(int connectorId, bool success, string error)> Handle(CreateConnectorCommand request, CancellationToken cancellationToken)
             {
+                ChargeStation chargeStation = await _chargeStationRepository.GetByIdAsync(request.Connector.ChargeStationId, x => x.Connectors);
+                if (chargeStation.MaxConnectors == chargeStation.Connectors.Count) return (0, false, $"Charge station {chargeStation.Name} has already reached max number of connectors. Max allowed connectors: {chargeStation.MaxConnectors}");
+
                 Group group = await _groupRepository.GetByIdAsync(request.GroupId);
                 if (group == null) throw new DataMisalignedException($"Group doesn't exist with id: {request.GroupId}");
 
