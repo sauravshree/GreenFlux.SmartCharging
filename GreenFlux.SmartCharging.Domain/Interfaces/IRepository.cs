@@ -12,7 +12,8 @@ namespace GreenFlux.SmartCharging.Domain.Interfaces
         Task CreateAsync(List<TEntity> entities);
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(int id);
-        Task<TEntity> GetByIdAsync(int id , params Expression<Func<TEntity, object>>[] includes);
-        Task<List<TEntity>> GetAll();
+        Task DeleteAsync(Expression<Func<TEntity, bool>> where);
+        Task<TEntity> GetByIdAsync(int id, params Expression<Func<TEntity, object>>[] includes);
+        Task<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> where = null, params Expression<Func<TEntity, object>>[] includes);
     }
 }

@@ -45,19 +45,33 @@ namespace GreenFlux.SmartCharging.Infrastructure.EntityFramework
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id, params Expression<Func<TEntity, object>>[] includes)
+        public async Task DeleteAsync(Expression<Func<TEntity, bool>> where)
         {
-            IQueryable<TEntity> entities = _dbContext.Set<TEntity>();
-            if (includes != null)
-            {
-                entities = includes.Aggregate(entities, (current, n) => current.Include(n));
-            }
-            return await entities.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
+            DbSet<TEntity> entities = _dbContext.Set<TEntity>();
+            List<TEntity> itemsToDelete = await entities.Where(where).ToListAsync();
+            entities.RemoveRange(itemsToDelete);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<TEntity>> GetAll()
+        public async Task<TEntity> GetByIdAsync(int id, params Expression<Func<TEntity, object>>[] includes)
         {
-            return await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
+            IQueryable<TEntity> query = _dbContext.Set<TEntity>();
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, n) => current.Include(n));
+            }
+            return await query.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<List<TEntity>> GetAll(Expression<Func<TEntity, bool>> where = null, params Expression<Func<TEntity, object>>[] includes)
+        {
+            IQueryable<TEntity> query = _dbContext.Set<TEntity>().AsNoTracking();
+            if (where != null) query = query.Where(where);
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, n) => current.Include(n));
+            }
+            return await query.ToListAsync();
         }
     }
 }

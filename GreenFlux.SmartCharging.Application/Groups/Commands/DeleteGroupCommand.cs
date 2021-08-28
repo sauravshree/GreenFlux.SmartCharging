@@ -26,6 +26,7 @@ namespace GreenFlux.SmartCharging.Application.Groups.Commands
 
             public async Task<Unit> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
             {
+                //Also deletes associated charge stations and connectors because of db constraint onDelete.Cascade
                 await _repository.DeleteAsync(request.GroupId);
                 return Unit.Value;
             }

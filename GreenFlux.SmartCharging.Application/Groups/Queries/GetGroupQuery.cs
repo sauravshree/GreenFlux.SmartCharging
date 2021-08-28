@@ -25,7 +25,7 @@ namespace GreenFlux.SmartCharging.Application.Groups.Queries
             }
             public async Task<Group> Handle(GetGroupQuery request, CancellationToken cancellationToken)
             {
-                return await _repository.GetByIdAsync(request.GroupId);
+                return await _repository.GetByIdAsync(request.GroupId, x => x.ChargeStations);
             }
         }
     }
