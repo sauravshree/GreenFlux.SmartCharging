@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using GreenFlux.SmartCharging.Application.ChargeStations.Models;
-using GreenFlux.SmartCharging.Application.ChargeStations.Services;
+using GreenFlux.SmartCharging.Application.Services;
 using GreenFlux.SmartCharging.Domain.Entities;
 using GreenFlux.SmartCharging.Domain.Interfaces;
 using MediatR;
@@ -36,17 +36,14 @@ namespace GreenFlux.SmartCharging.Application.ChargeStations.Commands
             private readonly IRepository<Group> _groupRepository;
             private readonly IRepository<ChargeStation> _chargeStationRepository;
             private readonly IRepository<Connector> _connectorRepository;
-            private readonly IValidationService _validationService;
 
             public Handler(IRepository<Group> groupRepository,
                 IRepository<ChargeStation> chargeStationRepository,
-                IRepository<Connector> connectorRepository,
-                IValidationService validationService)
+                IRepository<Connector> connectorRepository)
             {
                 _groupRepository = groupRepository;
                 _chargeStationRepository = chargeStationRepository;
                 _connectorRepository = connectorRepository;
-                _validationService = validationService;
             }
             public async Task<(int chargeStationId, bool success, string error)> Handle(CreateChargeStationCommand request, CancellationToken cancellationToken)
             {
@@ -57,7 +54,7 @@ namespace GreenFlux.SmartCharging.Application.ChargeStations.Commands
 
                 List<double> connectorsMaxCurrentAmps = request.ChargeStation.Connectors.Select(x => x.MaxCurrentAmps).ToList();
                 connectorsMaxCurrentAmps.AddRange(existingChargeStations.SelectMany(s => s.Connectors).Select(c => c.MaxCurrentAmps));
-                if (!_validationService.IsInGroupCapacity(group.CapacityAmps, connectorsMaxCurrentAmps))
+                if (!ValidationService.IsInGroupCapacity(group.CapacityAmps, connectorsMaxCurrentAmps))
                 {
                     return (0, false, $"Group {group.Name} do not have enough capacity for requested connectors.");
                 }

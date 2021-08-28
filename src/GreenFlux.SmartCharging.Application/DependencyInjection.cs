@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using GreenFlux.SmartCharging.Application.Behaviors;
-using GreenFlux.SmartCharging.Application.ChargeStations.Services;
+using GreenFlux.SmartCharging.Application.Services;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,7 +13,6 @@ namespace GreenFlux.SmartCharging.Application
             services.AddMediatR(typeof(DependencyInjection));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
-            services.AddSingleton<IValidationService, ValidationService>();
             return services;
         }
     }
